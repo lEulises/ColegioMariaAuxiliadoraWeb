@@ -675,276 +675,301 @@ ul {
    =========================================================================== */
 @media (max-width: 992px) { /* Tablets y móviles */
 
-    /* Regla para el body cuando el menú móvil está activo */
-    body.no-scroll {
-        overflow: hidden; /* Evita el scroll en el body */
-        position: fixed; /* <--- CLAVE: Fija la posición del body */
-        width: 100%; /* Ocupa el ancho completo */
-        height: 100vh; /* Ocupa la altura completa de la ventana */
+    /* Forzar reset de márgenes/paddings en html y body */
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow-x: hidden !important; /* Evitar scroll horizontal */
     }
 
-    /* Header */
+    /* Regla para el body cuando el menú móvil está activo */
+    body.no-scroll {
+        overflow: hidden !important;
+        position: fixed !important;
+        width: 100vw !important; /* Forzar 100% del ancho del viewport */
+        height: 100vh !important;
+        top: 0 !important; /* Asegurar que no haya offset */
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+    }
+
+    /* Header visible en mobile (logo y hamburguesa) */
     .main-header {
-        padding: var(--spacing-sm) 0;
-        height: auto;
-        min-height: 80px;
+        padding: var(--spacing-sm) 0 !important;
+        height: auto !important;
+        min-height: 80px !important;
+        position: fixed !important; /* Header DEBE ser fijo en mobile */
+        width: 100vw !important; /* Forzar 100% del ancho del viewport */
+        top: 0 !important;
+        left: 0 !important;
+        z-index: 1001 !important; /* Más alto que el menú desplegable */
+        background-color: var(--white) !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
     }
     .header-content {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: nowrap;
-        padding-left: var(--spacing-md);
-        padding-right: var(--spacing-md);
-        height: 100%;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        padding-left: var(--spacing-md) !important;
+        padding-right: var(--spacing-md) !important;
+        height: 100% !important;
     }
 
     .header-logo {
-        margin-right: auto;
-        margin-bottom: 0;
-        order: 1;
-        align-self: center;
+        margin-right: auto !important;
+        margin-bottom: 0 !important;
+        order: 1 !important;
+        align-self: center !important;
     }
     .header-logo img {
-        height: 70px;
+        height: 70px !important;
     }
 
     /* Menú Hamburguesa (siempre visible en este breakpoint) */
     .menu-toggle {
-        display: block;
-        position: static;
-        margin-left: var(--spacing-md);
-        order: 2;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 10px;
-        z-index: 1050;
+        display: block !important;
+        position: static !important;
+        margin-left: var(--spacing-md) !important;
+        order: 2 !important;
+        background: none !important;
+        border: none !important;
+        cursor: pointer !important;
+        padding: 10px !important;
+        z-index: 1050 !important;
     }
     .menu-toggle .icon-bar {
-        display: block;
-        width: 25px;
-        height: 3px;
-        background-color: var(--primary-blue);
-        margin: 5px 0;
-        transition: all 0.3s ease;
+        display: block !important;
+        width: 25px !important;
+        height: 3px !important;
+        background-color: var(--primary-blue) !important;
+        margin: 5px 0 !important;
+        transition: all 0.3s ease !important;
     }
-    .menu-toggle.active .icon-bar:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
-    .menu-toggle.active .icon-bar:nth-child(2) { opacity: 0; }
-    .menu-toggle.active .icon-bar:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
+    .menu-toggle.active .icon-bar:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px) !important; }
+    .menu-toggle.active .icon-bar:nth-child(2) { opacity: 0 !important; }
+    .menu-toggle.active .icon-bar:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px) !important; }
 
 
-    /* Contenedores del menú desplegable: Main Nav y Header Auth */
-    .main-nav,
+    /* Contenedor principal del MENÚ DESPLEGABLE (main-nav ahora incluye header-auth) */
+    .main-nav {
+        display: none !important; /* Oculto por defecto, controlado por JS */
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important; /* <--- CLAVE: Asegura que empiece en el borde izquierdo */
+        width: 100vw !important; /* <--- CLAVE: Ocupa el 100% del ancho del viewport */
+        height: 100vh !important;
+        background-color: var(--primary-blue) !important;
+        box-shadow: 0 8px 15px rgba(0,0,0,0.4) !important;
+        max-height: 0 !important;
+        overflow-y: hidden !important;
+        transition: max-height 0.4s ease-in-out, opacity 0.3s ease !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        padding-top: 0 !important; /* El padding superior general se aplicará en .main-nav.active */
+        padding-bottom: 0 !important;
+        border-radius: 0 0 8px 8px !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        z-index: 998 !important;
+    }
+
+    /* El bloque header-auth (dentro de main-nav) se oculta en desktop/mobile por defecto */
     .header-auth {
-        display: none; /* Oculto por defecto, controlado por JS */
-        position: fixed; /* <--- Mantenemos fijo para que ocupe toda la ventana */
-        top: 0; /* <--- CLAVE: Ajustar a 0 para que empiece desde arriba de la ventana */
-        left: 0;
-        width: 100%;
-        height: 100vh; /* <--- CLAVE: Ocupa el 100% de la altura de la ventana */
-        background-color: var(--primary-blue);
-        box-shadow: 0 8px 15px rgba(0,0,0,0.4);
-        max-height: 0; /* Para la animación de despliegue */
-        overflow-y: auto; /* Permite desplazamiento si el contenido es muy largo */
-        transition: max-height 0.4s ease-in-out, opacity 0.3s ease;
-        flex-direction: column;
-        align-items: flex-start;
-        padding-top: 80px; /* <--- CLAVE: Padding para dejar espacio al logo y hamburguesa del header fijo */
-        padding-bottom: 0;
-        border-radius: 0 0 8px 8px;
-        opacity: 0;
-        visibility: hidden;
-        z-index: 998; /* Un z-index alto, pero el menu-toggle debe ser mayor si está en el header */
+        display: none !important; /* Oculto por defecto en mobile (y desktop) */
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+        padding: 20px !important;
+        border-top: 1px solid rgba(255,255,255,0.1) !important;
+        gap: 10px !important;
+        margin-top: 10px !important;
+        background-color: transparent !important;
     }
+
     /* Aseguramos que el contenido principal de la página quede oculto */
     .site-main-content {
-        z-index: 1; /* Valor bajo para que el menú fijo se superponga */
+        z-index: 1 !important;
+        position: relative !important;
+        /* Forzar ocultamiento si el menú lo permite */
+        /* display: none !important; */ /* Comenta esto si no quieres que el contenido desaparezca completamente */
     }
 
 
     /* Cuando el menú hamburguesa está activo, se muestran */
     .main-nav.active {
-        max-height: 100vh; /* Se expande a la altura completa */
-        opacity: 1;
-        visibility: visible;
-        display: flex;
-        order: 3;
-        flex-direction: column;
-        align-items: flex-start;
-        padding-top: 80px; /* Asegura espacio para el header */
-        padding-bottom: var(--spacing-sm);
+        max-height: 100vh !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+        overflow-y: auto !important;
+        /* <--- CLAVE: Ajustar padding-top para el contenido del menú */
+        padding-top: 80px !important; /* La altura del header es 80px */
+        padding-left: 0 !important; /* Elimina padding izquierdo */
+        padding-right: 0 !important; /* Elimina padding derecho */
+        padding-bottom: var(--spacing-sm) !important;
+        justify-content: flex-start !important; /* Alinea el contenido del menú al inicio */
+    }
+    /* Asegurar que el bloque header-auth se muestre cuando el menú principal está activo */
+    .main-nav.active .header-auth {
+        display: flex !important;
     }
 
     .nav-list {
-        flex-direction: column;
-        width: 100%;
-        align-items: flex-start;
-        padding: 0;
-        margin: 0;
-        display: flex;
+        flex-direction: column !important;
+        width: 100% !important;
+        align-items: flex-start !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        order: 1 !important;
     }
     .nav-list li {
-        width: 100%;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        margin: 0;
-        background-color: transparent; /* Aseguramos que no tengan fondo dorado base */
-        color: var(--white);
+        width: 100% !important;
+        border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+        margin: 0 !important;
+        background-color: transparent !important;
+        color: var(--white) !important;
     }
     .nav-list li:last-child {
-        border-bottom: none;
+        border-bottom: none !important;
     }
     .nav-list a {
-        color: var(--white);
-        padding: 14px 20px;
-        border-radius: 0;
-        background-color: transparent;
-        font-weight: 500;
-        text-transform: uppercase;
-        font-size: 0.95em;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
+        color: var(--white) !important;
+        padding: 14px 20px !important;
+        border-radius: 0 !important;
+        background-color: transparent !important;
+        font-weight: 500 !important;
+        text-transform: uppercase !important;
+        font-size: 0.95em !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
     }
     .nav-list a:hover,
     .nav-list li.active > a {
-        background-color: var(--accent-gold);
-        color: var(--black);
+        background-color: var(--accent-gold) !important;
+        color: var(--black) !important;
     }
-    /* Asegurar que los ítems con submenú también tengan el color y fondo correcto */
     .nav-list li.has-submenu > a {
-        color: var(--white);
-        background-color: transparent;
+        color: var(--white) !important;
+        background-color: transparent !important;
     }
     .nav-list li.has-submenu.active > a {
-        background-color: var(--accent-gold);
-        color: var(--black);
+        background-color: var(--accent-gold) !important;
+        color: var(--black) !important;
     }
 
-    .header-auth.active {
-        max-height: 200px; /* La altura se ajustará por el height total del .header-auth */
-        padding: 20px;
-        opacity: 1;
-        visibility: visible;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border-top: 1px solid rgba(255,255,255,0.1);
-        gap: 10px;
-        margin-top: 10px;
-        order: 4;
-        width: 100%;
-        justify-content: center;
-    }
-
-    /* Estilos del contenido del header-auth cuando se muestra en el menú móvil */
+    /* Estilos del contenido del header-auth */
     .header-auth .btn {
-        width: 100%;
-        font-size: 0.9em;
-        padding: 12px;
-        min-width: unset;
+        width: 100% !important;
+        font-size: 0.9em !important;
+        padding: 12px !important;
+        min-width: unset !important;
     }
 
     .user-info-display {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        white-space: normal;
-        margin-bottom: 10px;
-        font-size: 1em;
-        width: 100%;
-        color: var(--white);
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        white-space: normal !important;
+        margin-bottom: 10px !important;
+        font-size: 1em !important;
+        width: 100% !important;
+        color: var(--white) !important;
     }
     .user-info-display span:first-child {
-        font-size: 0.9em;
-        color: var(--white);
+        font-size: 0.9em !important;
+        color: var(--white) !important;
     }
     .user-info-display .user-full-name {
-        font-size: 1.1em;
-        color: var(--accent-gold);
+        font-size: 1.1em !important;
+        color: var(--accent-gold) !important;
     }
 
     /* Flechas en móvil para todos los elementos con submenú */
     .nav-list .has-submenu > a .arrow-down,
     .nav-list .has-submenu > a .arrow-right {
-        position: static;
-        margin-left: 10px;
-        transform: rotate(0deg);
-        color: var(--white);
+        position: static !important;
+        margin-left: 10px !important;
+        transform: rotate(0deg) !important;
+        color: var(--white) !important;
     }
     .nav-list li.has-submenu.active > a .arrow-down,
     .nav-list li.has-submenu.active > a .arrow-right {
-        transform: rotate(180deg);
-        color: var(--black);
+        transform: rotate(180deg) !important;
+        color: var(--black) !important;
     }
 
     /* Submenús y Sub-Submenús en móvil (se apilan y se muestran con JS) */
     .submenu, .nested-submenu {
-        position: static;
-        background-color: rgba(0,0,0,0.2);
-        box-shadow: none;
-        width: 100%;
-        display: none;
-        padding-left: 20px;
-        border-radius: 0;
-        opacity: 1;
-        transform: none;
+        position: static !important;
+        background-color: rgba(0,0,0,0.2) !important;
+        box-shadow: none !important;
+        width: 100% !important;
+        display: none !important;
+        padding-left: 20px !important;
+        border-radius: 0 !important;
+        opacity: 1 !important;
+        transform: none !important;
     }
     .nav-list li.has-submenu.active > .submenu {
-        display: block;
+        display: block !important;
     }
     .nested-submenu {
-        padding-left: 40px;
-        background-color: rgba(0,0,0,0.1);
+        padding-left: 40px !important;
+        background-color: rgba(0,0,0,0.1) !important;
     }
     .submenu li.has-submenu.active > .nested-submenu {
-        display: block;
+        display: block !important;
     }
     .submenu a, .nested-submenu a {
-        padding-left: 40px;
-        background-color: transparent;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
+        padding-left: 40px !important;
+        background-color: transparent !important;
+        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
     }
     .nested-submenu a {
-        padding-left: 60px;
+        padding-left: 60px !important;
     }
 
     /* Hero Section en tablet */
     .mySlides img {
-        height: 500px;
+        height: 500px !important;
     }
     .hero-caption {
-        width: 80%;
-        padding: var(--spacing-md);
-        clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%);
+        width: 80% !important;
+        padding: var(--spacing-md) !important;
+        clip-path: polygon(0 0, 100% 0, 95% 100%, 0% 100%) !important;
     }
     .hero-caption h1 {
-        font-size: 2.5em;
+        font-size: 2.5em !important;
     }
     .hero-caption p {
-        font-size: 1.1em;
+        font-size: 1.1em !important;
     }
 
     /* Grid de programas en tablet */
     .grid-3-cols {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: var(--spacing-md);
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+        gap: var(--spacing-md) !important;
     }
 
     /* Footer en Tablet: 2 columnas */
     .footer-content-wrapper {
-        justify-content: space-around;
-        gap: var(--spacing-lg);
+        justify-content: space-around !important;
+        gap: var(--spacing-lg) !important;
     }
     .footer-column {
-        flex: 1 1 45%;
-        min-width: 280px;
-        padding: 0;
+        flex: 1 1 45% !important;
+        min-width: 280px !important;
+        padding: 0 !important;
     }
     .footer-column h3 {
-        text-align: center;
+        text-align: center !important;
     }
     .contact-info-col p,
     .social-icons-footer,
@@ -952,147 +977,149 @@ ul {
     .nav-links-col ul,
     .extra-info-col p,
     .footer-btn {
-        justify-content: center;
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
+        justify-content: center !important;
+        text-align: center !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 }
 
 @media (max-width: 768px) { /* Móviles más pequeños - ESTE ES EL BREAKPOINT PRINCIPAL PARA MÓVIL */
     /* Header en Móvil */
     .main-header {
-        padding: var(--spacing-sm) 0;
+        padding: var(--spacing-sm) 0 !important;
+        min-height: 60px !important;
     }
     .header-content {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
     }
 
     .header-logo img {
-        height: 60px;
+        height: 60px !important;
     }
 
     /* Reafirma estilos para el menú móvil */
-    .main-nav.active,
-    .header-auth.active {
-        top: 60px; /* Ajusta este valor si tu header es más alto o más bajo en este breakpoint */
-        height: calc(100vh - 60px);
-        max-height: calc(100vh - 60px);
-        overflow-y: auto;
+    .main-nav.active {
+        top: 60px !important; /* Ajusta este valor si tu header es más alto o más bajo en este breakpoint */
+        height: calc(100vh - 60px) !important;
+        max-height: calc(100vh - 60px) !important;
+        overflow-y: auto !important;
+        padding-top: 60px !important; /* <--- CLAVE: Ajustar padding-top para 768px */
     }
+    /* Estilos del header-auth cuando es parte del menú activo */
     .header-auth {
-        margin-top: 20px;
+        margin-top: 20px !important;
     }
     /* Asegura que los enlaces del nav-list ocupen el ancho completo */
     .nav-list a {
-        padding: 12px 15px;
-        font-size: 0.9em;
+        padding: 12px 15px !important;
+        font-size: 0.9em !important;
     }
     /* Estilos del user-info-display en este breakpoint */
     .user-info-display {
-        font-size: 0.85em;
+        font-size: 0.85em !important;
     }
     .user-info-display .user-full-name {
-        font-size: 1em;
+        font-size: 1em !important;
     }
 
 
     /* Hero Section en móvil */
     .hero-section {
-        margin-bottom: var(--spacing-lg);
+        margin-bottom: var(--spacing-lg) !important;
     }
     .mySlides img {
-        height: 350px;
+        height: 350px !important;
     }
     .hero-caption {
-        width: 100%;
-        padding: var(--spacing-md);
-        clip-path: none;
-        background-color: rgba(7, 67, 120, 0.95);
-        position: static;
-        transform: none;
-        border-radius: 0 0 8px 8px;
-        text-align: center;
+        width: 100% !important;
+        padding: var(--spacing-md) !important;
+        clip-path: none !important;
+        background-color: rgba(7, 67, 120, 0.95) !important;
+        position: static !important;
+        transform: none !important;
+        border-radius: 0 0 8px 8px !important;
+        text-align: center !important;
     }
     .hero-caption-content {
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
     .hero-caption h1 {
-        font-size: 2em;
+        font-size: 2em !important;
     }
     .hero-caption p {
-        font-size: 1em;
-        margin-bottom: var(--spacing-md);
+        font-size: 1em !important;
+        margin-bottom: var(--spacing-md) !important;
     }
     .prev, .next {
-        font-size: 1.5em;
-        padding: 10px;
+        font-size: 1.5em !important;
+        padding: 10px !important;
     }
     .dot {
-        height: 12px;
-        width: 12px;
+        height: 12px !important;
+        width: 12px !important;
     }
 
     /* Footer: Apila las columnas verticalmente en móviles */
     .footer-content-wrapper {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
     }
 
     .footer-column {
-        min-width: unset;
-        width: 100%;
-        margin-bottom: var(--spacing-md);
-        padding: 0;
+        min-width: unset !important;
+        width: 100% !important;
+        margin-bottom: var(--spacing-md) !important;
+        padding: 0 !important;
     }
     .footer-column:last-of-type {
-        margin-bottom: 0;
+        margin-bottom: 0 !important;
     }
     .footer-column h3 {
-        text-align: center;
+        text-align: center !important;
     }
     .contact-info-col p {
-        justify-content: center;
+        justify-content: center !important;
     }
     .social-icons-footer {
-        justify-content: center;
+        justify-content: center !important;
     }
     .language-selector-footer {
-        margin-left: auto;
-        margin-right: auto;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
     .nav-links-col ul {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
     }
 
     /* Grid de programas en móvil */
     .grid-3-cols {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-md);
+        grid-template-columns: 1fr !important;
+        gap: var(--spacing-md) !important;
     }
 }
 
 @media (max-width: 576px) { /* Móviles muy pequeños */
     .mission-vision-section h1 {
-        font-size: 2.2em;
+        font-size: 2.2em !important;
     }
 
     .mission-column h2,
     .vision-column h2,
     .values-content h2 {
-        font-size: 1.6em;
+        font-size: 1.6em !important;
     }
 
     .mission-column p,
     .vision-column p,
     .values-content li {
-        font-size: 1em;
+        font-size: 1em !important;
     }
 }
 /* ===========================================================================
