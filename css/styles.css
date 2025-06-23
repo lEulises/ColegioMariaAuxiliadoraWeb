@@ -678,6 +678,8 @@ ul {
     /* Header */
     .main-header {
         padding: var(--spacing-sm) 0;
+        height: auto;
+        min-height: 80px;
     }
     .header-content {
         flex-direction: row;
@@ -686,12 +688,14 @@ ul {
         flex-wrap: nowrap;
         padding-left: var(--spacing-md);
         padding-right: var(--spacing-md);
+        height: 100%;
     }
 
     .header-logo {
         margin-right: auto;
         margin-bottom: 0;
         order: 1;
+        align-self: center;
     }
     .header-logo img {
         height: 70px;
@@ -722,96 +726,103 @@ ul {
     .menu-toggle.active .icon-bar:nth-child(3) { transform: rotate(45deg) translate(-5px, -6px); }
 
 
-    /* Ocultar la navegación y los botones de autenticación normales */
-    /* Ambos se posicionan absolutos para superponerse en móvil al abrirse */
+    /* Contenedores del menú desplegable: Main Nav y Header Auth */
     .main-nav,
     .header-auth {
-        display: none !important; /* Forzar ocultamiento inicial */
-        position: absolute; /* Para que floten sobre el contenido */
-        top: 100%; /* Justo debajo del header visible */
+        display: none !important; /* Oculto por defecto, forzado */
+        position: fixed; /* Posicionamiento fijo para que cubra la pantalla */
+        top: 80px; /* Ajustar según la altura real de tu header en móvil */
         left: 0;
         width: 100%;
+        height: calc(100vh - 80px); /* Ocupa el 100% de la altura de la ventana menos el header */
         background-color: var(--primary-blue);
         box-shadow: 0 8px 15px rgba(0,0,0,0.4);
         max-height: 0; /* Para la animación de despliegue */
-        overflow: hidden; /* Oculta contenido que excede max-height */
+        overflow-y: auto; /* Permite desplazamiento si el contenido es muy largo */
         transition: max-height 0.4s ease-in-out, opacity 0.3s ease;
-        flex-direction: column; /* Apila el contenido interno */
-        align-items: flex-start; /* Alinea items a la izquierda */
+        flex-direction: column;
+        align-items: flex-start;
         padding-top: 0;
         padding-bottom: 0;
         border-radius: 0 0 8px 8px;
         opacity: 0;
         visibility: hidden;
-        z-index: 998; /* Un z-index ligeramente menor que el toggle si fuera necesario */
+        z-index: 998;
     }
 
     /* Cuando el menú hamburguesa está activo, se muestran */
     .main-nav.active {
-        max-height: 500px !important; /* Forzar altura */
+        max-height: calc(100vh - 80px) !important; /* Se expande a la altura completa */
         padding-top: var(--spacing-sm);
         padding-bottom: var(--spacing-sm);
-        opacity: 1 !important; /* Forzar opacidad */
-        visibility: visible !important; /* Forzar visibilidad */
-        display: flex !important; /* Forzar display flex */
-        order: 3; /* Asegura que aparezca debajo del logo y toggle */
-        flex-direction: column; /* Apila los elementos del nav-list */
-        align-items: flex-start; /* Alinea los items a la izquierda */
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+        order: 3;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
-    .nav-list { /* Aseguramos que la lista también se comporte como columna */
+    .nav-list {
         flex-direction: column;
         width: 100%;
-        align-items: flex-start; /* Alinea los items de la lista a la izquierda */
-    }
-    .nav-list li { /* Los ítems de la lista ocupan todo el ancho */
-        width: 100%;
-        border-bottom: 1px solid rgba(255,255,255,0.1); /* Separador entre ítems */
+        align-items: flex-start;
+        padding: 0;
         margin: 0;
+        /* IMPORTANTE: Aseguramos que los elementos LI del nav-list también sean visibles */
+        display: flex; /* Asegura que la UL es flex */
+    }
+    .nav-list li {
+        width: 100%;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        margin: 0;
+        /* display: block;  Normalmente no es necesario si el padre es flex column */
     }
     .nav-list li:last-child {
-        border-bottom: none; /* Elimina el borde del último ítem */
+        border-bottom: none;
     }
-    .nav-list a { /* Estilos para los enlaces del menú móvil */
-        color: var(--white); /* Texto blanco */
+    .nav-list a {
+        color: var(--white); /* Texto blanco por defecto */
         padding: 14px 20px;
         border-radius: 0;
         background-color: transparent; /* Fondo transparente por defecto */
         font-weight: 500;
         text-transform: uppercase;
         font-size: 0.95em;
-        display: flex; /* Para centrar el texto y la flecha */
+        display: flex;
         align-items: center;
-        justify-content: space-between; /* Espacio entre texto y flecha */
+        justify-content: space-between;
+        width: 100%;
     }
     .nav-list a:hover,
     .nav-list li.active > a {
-        background-color: var(--accent-gold); /* Fondo dorado al hover o activo */
-        color: var(--black); /* Texto negro al hover o activo */
+        background-color: var(--accent-gold);
+        color: var(--black);
     }
     /* Asegurar que los ítems con submenú también tengan el color y fondo correcto */
     .nav-list li.has-submenu > a {
         color: var(--white);
         background-color: transparent;
     }
-    .nav-list li.has-submenu.active > a { /* Cuando el ítem del menú principal con submenú está activo */
+    .nav-list li.has-submenu.active > a {
         background-color: var(--accent-gold);
         color: var(--black);
     }
 
     .header-auth.active {
-        max-height: 200px !important; /* Forzar altura */
-        padding-top: var(--spacing-sm);
-        padding-bottom: var(--spacing-sm);
-        opacity: 1 !important; /* Forzar opacidad */
-        visibility: visible !important; /* Forzar visibilidad */
-        display: flex !important; /* Forzar display flex */
-        align-items: center;
+        max-height: 200px !important;
         padding: 20px;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
         border-top: 1px solid rgba(255,255,255,0.1);
         gap: 10px;
         margin-top: 10px;
         order: 4;
+        width: 100%;
+        justify-content: center;
     }
 
     /* Estilos del contenido del header-auth cuando se muestra en el menú móvil */
@@ -823,18 +834,23 @@ ul {
     }
 
     .user-info-display {
+        display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
         white-space: normal;
         margin-bottom: 10px;
         font-size: 1em;
+        width: 100%;
+        color: var(--white);
     }
     .user-info-display span:first-child {
         font-size: 0.9em;
+        color: var(--white);
     }
     .user-info-display .user-full-name {
         font-size: 1.1em;
+        color: var(--accent-gold);
     }
 
     /* Flechas en móvil para todos los elementos con submenú */
@@ -843,33 +859,35 @@ ul {
         position: static;
         margin-left: 10px;
         transform: rotate(0deg);
+        color: var(--white);
     }
     .nav-list li.has-submenu.active > a .arrow-down,
     .nav-list li.has-submenu.active > a .arrow-right {
         transform: rotate(180deg);
+        color: var(--black);
     }
 
     /* Submenús y Sub-Submenús en móvil (se apilan y se muestran con JS) */
     .submenu, .nested-submenu {
-        position: static !important; /* Forzar posición estática */
+        position: static;
         background-color: rgba(0,0,0,0.2);
         box-shadow: none;
         width: 100%;
-        display: none; /* Controlado por JS */
+        display: none;
         padding-left: 20px;
         border-radius: 0;
         opacity: 1;
         transform: none;
     }
     .nav-list li.has-submenu.active > .submenu {
-        display: block !important; /* Forzar display block */
+        display: block;
     }
     .nested-submenu {
         padding-left: 40px;
         background-color: rgba(0,0,0,0.1);
     }
     .submenu li.has-submenu.active > .nested-submenu {
-        display: block !important; /* Forzar display block */
+        display: block;
     }
     .submenu a, .nested-submenu a {
         padding-left: 40px;
@@ -946,12 +964,27 @@ ul {
     /* Reafirma estilos para el menú móvil */
     .main-nav.active,
     .header-auth.active {
+        top: 60px; /* Ajusta este valor si tu header es más alto o más bajo en este breakpoint */
+        height: calc(100vh - 60px);
         max-height: calc(100vh - 60px);
         overflow-y: auto;
     }
     .header-auth {
         margin-top: 20px;
     }
+    /* Asegura que los enlaces del nav-list ocupen el ancho completo */
+    .nav-list a {
+        padding: 12px 15px;
+        font-size: 0.9em;
+    }
+    /* Estilos del user-info-display en este breakpoint */
+    .user-info-display {
+        font-size: 0.85em;
+    }
+    .user-info-display .user-full-name {
+        font-size: 1em;
+    }
+
 
     /* Hero Section en móvil */
     .hero-section {
