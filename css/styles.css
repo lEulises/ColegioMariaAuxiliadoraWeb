@@ -231,7 +231,7 @@ ul {
     justify-content: center; /* Centra la lista de navegación */
     background-color: transparent;
     padding: 0;
-    margin: 0 10px; /* Ajustamos los márgenes de la navegación para balancear el espacio */
+    margin: 0 0px; /* Ajustamos los márgenes de la navegación para balancear el espacio */
 }
 
 .nav-list {
@@ -675,13 +675,6 @@ ul {
    =========================================================================== */
 @media (max-width: 992px) { /* Tablets y móviles */
 
-    /* Forzar reset de márgenes/paddings en html y body */
-    html, body {
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow-x: hidden !important; /* Evitar scroll horizontal */
-    }
-
     /* Regla para el body cuando el menú móvil está activo */
     body.no-scroll {
         overflow: hidden !important;
@@ -692,6 +685,9 @@ ul {
         left: 0 !important;
         right: 0 !important;
         bottom: 0 !important;
+        /* Asegurar que el body no tenga márgenes/paddings por defecto */
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     /* Header visible en mobile (logo y hamburguesa) */
@@ -758,7 +754,7 @@ ul {
         display: none !important; /* Oculto por defecto, controlado por JS */
         position: fixed !important;
         top: 0 !important;
-        left: 0 !important; /* <--- CLAVE: Asegura que empiece en el borde izquierdo */
+        left: 0px !important; /* <--- CLAVE: Ajuste para el borde blanco */
         width: 100vw !important; /* <--- CLAVE: Ocupa el 100% del ancho del viewport */
         height: 100vh !important;
         background-color: var(--primary-blue) !important;
@@ -780,21 +776,20 @@ ul {
     .header-auth {
         display: none !important; /* Oculto por defecto en mobile (y desktop) */
         flex-direction: column !important;
-        align-items: center !important;
+        align-items: center !important; /* Alineación del texto y botón dentro de header-auth */
         width: 100% !important;
         padding: 20px !important;
         border-top: 1px solid rgba(255,255,255,0.1) !important;
         gap: 10px !important;
         margin-top: 10px !important;
         background-color: transparent !important;
+        text-align: center !important; /* Asegura el centrado del texto si no es flex */
     }
 
     /* Aseguramos que el contenido principal de la página quede oculto */
     .site-main-content {
         z-index: 1 !important;
         position: relative !important;
-        /* Forzar ocultamiento si el menú lo permite */
-        /* display: none !important; */ /* Comenta esto si no quieres que el contenido desaparezca completamente */
     }
 
 
@@ -806,7 +801,7 @@ ul {
         display: flex !important;
         overflow-y: auto !important;
         /* <--- CLAVE: Ajustar padding-top para el contenido del menú */
-        padding-top: 80px !important; /* La altura del header es 80px */
+        padding-top: 70px !important; /* Altura del header es 70px en este breakpoint */
         padding-left: 0 !important; /* Elimina padding izquierdo */
         padding-right: 0 !important; /* Elimina padding derecho */
         padding-bottom: var(--spacing-sm) !important;
@@ -821,8 +816,8 @@ ul {
         flex-direction: column !important;
         width: 100% !important;
         align-items: flex-start !important;
-        padding: 0 !important;
-        margin: 0 !important;
+        padding: 0 !important; /* Elimina paddings en nav-list */
+        margin: 0 !important; /* Elimina márgenes en nav-list */
         display: flex !important;
         order: 1 !important;
     }
@@ -863,19 +858,19 @@ ul {
         color: var(--black) !important;
     }
 
-    /* Estilos del contenido del header-auth */
+    /* Estilos del contenido del header-auth (ahora dentro de main-nav) */
     .header-auth .btn {
         width: 100% !important;
         font-size: 0.9em !important;
         padding: 12px !important;
         min-width: unset !important;
     }
-
+    /* Asegura que el texto y el botón dentro del header-auth se centren si su contenedor es flex */
     .user-info-display {
         display: flex !important;
         flex-direction: column !important;
-        align-items: center !important;
-        text-align: center !important;
+        align-items: center !important; /* Centra horizontalmente los elementos del saludo */
+        text-align: center !important; /* Centra el texto */
         white-space: normal !important;
         margin-bottom: 10px !important;
         font-size: 1em !important;
