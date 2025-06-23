@@ -675,6 +675,14 @@ ul {
    =========================================================================== */
 @media (max-width: 992px) { /* Tablets y móviles */
 
+    /* Regla para el body cuando el menú móvil está activo */
+    body.no-scroll {
+        overflow: hidden; /* Evita el scroll en el body */
+        position: fixed; /* <--- CLAVE: Fija la posición del body */
+        width: 100%; /* Ocupa el ancho completo */
+        height: 100vh; /* Ocupa la altura completa de la ventana */
+    }
+
     /* Header */
     .main-header {
         padding: var(--spacing-sm) 0;
@@ -729,12 +737,12 @@ ul {
     /* Contenedores del menú desplegable: Main Nav y Header Auth */
     .main-nav,
     .header-auth {
-        display: none !important; /* Oculto por defecto, forzado */
-        position: fixed; /* Posicionamiento fijo para que cubra la pantalla */
-        top: 80px; /* Ajustar según la altura real de tu header en móvil */
+        display: none; /* Oculto por defecto, controlado por JS */
+        position: fixed; /* <--- Mantenemos fijo para que ocupe toda la ventana */
+        top: 0; /* <--- CLAVE: Ajustar a 0 para que empiece desde arriba de la ventana */
         left: 0;
         width: 100%;
-        height: calc(100vh - 80px); /* Ocupa el 100% de la altura de la ventana menos el header */
+        height: 100vh; /* <--- CLAVE: Ocupa el 100% de la altura de la ventana */
         background-color: var(--primary-blue);
         box-shadow: 0 8px 15px rgba(0,0,0,0.4);
         max-height: 0; /* Para la animación de despliegue */
@@ -742,25 +750,30 @@ ul {
         transition: max-height 0.4s ease-in-out, opacity 0.3s ease;
         flex-direction: column;
         align-items: flex-start;
-        padding-top: 0;
+        padding-top: 80px; /* <--- CLAVE: Padding para dejar espacio al logo y hamburguesa del header fijo */
         padding-bottom: 0;
         border-radius: 0 0 8px 8px;
         opacity: 0;
         visibility: hidden;
-        z-index: 998;
+        z-index: 998; /* Un z-index alto, pero el menu-toggle debe ser mayor si está en el header */
     }
+    /* Aseguramos que el contenido principal de la página quede oculto */
+    .site-main-content {
+        z-index: 1; /* Valor bajo para que el menú fijo se superponga */
+    }
+
 
     /* Cuando el menú hamburguesa está activo, se muestran */
     .main-nav.active {
-        max-height: calc(100vh - 80px) !important; /* Se expande a la altura completa */
-        padding-top: var(--spacing-sm);
-        padding-bottom: var(--spacing-sm);
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: flex !important;
+        max-height: 100vh; /* Se expande a la altura completa */
+        opacity: 1;
+        visibility: visible;
+        display: flex;
         order: 3;
         flex-direction: column;
         align-items: flex-start;
+        padding-top: 80px; /* Asegura espacio para el header */
+        padding-bottom: var(--spacing-sm);
     }
 
     .nav-list {
@@ -769,23 +782,23 @@ ul {
         align-items: flex-start;
         padding: 0;
         margin: 0;
-        /* IMPORTANTE: Aseguramos que los elementos LI del nav-list también sean visibles */
-        display: flex; /* Asegura que la UL es flex */
+        display: flex;
     }
     .nav-list li {
         width: 100%;
         border-bottom: 1px solid rgba(255,255,255,0.1);
         margin: 0;
-        /* display: block;  Normalmente no es necesario si el padre es flex column */
+        background-color: transparent; /* Aseguramos que no tengan fondo dorado base */
+        color: var(--white);
     }
     .nav-list li:last-child {
         border-bottom: none;
     }
     .nav-list a {
-        color: var(--white); /* Texto blanco por defecto */
+        color: var(--white);
         padding: 14px 20px;
         border-radius: 0;
-        background-color: transparent; /* Fondo transparente por defecto */
+        background-color: transparent;
         font-weight: 500;
         text-transform: uppercase;
         font-size: 0.95em;
@@ -810,11 +823,11 @@ ul {
     }
 
     .header-auth.active {
-        max-height: 200px !important;
+        max-height: 200px; /* La altura se ajustará por el height total del .header-auth */
         padding: 20px;
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: flex !important;
+        opacity: 1;
+        visibility: visible;
+        display: flex;
         flex-direction: column;
         align-items: center;
         border-top: 1px solid rgba(255,255,255,0.1);
