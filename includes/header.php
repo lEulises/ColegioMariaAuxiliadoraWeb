@@ -23,7 +23,7 @@ $body_class = isset($body_class) ? $body_class : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $page_title; ?></title>
-    <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="assets/img/favicon.png" type="image/x-icon">
 
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -60,9 +60,17 @@ $body_class = isset($body_class) ? $body_class : '';
                         </ul>
                     </li>
                     <li class="has-submenu">
-                        <a href="solicitud_cupo.php">Admisión</a>
+                        <a href="#">Admisión <i class="fas fa-chevron-down arrow-down"></i></a>
+                        <ul class="submenu">
+                            <li><a href="solicitud_cupo.php">Solicitar cupo</a></li>
+                        <?php if ($is_logged_in): // Si el usuario ha iniciado sesión ?>
+                            <li><a href="mis_solicitudes.php">Ver mi solicitud</a></li>
+                        <?php endif; ?>
+                        </ul>
                     </li>
+                    <li class="has-submenu">
                     <li><a href="contacto.php">Contacto</a></li>
+                    </li>
                 </ul>
             </nav>
 
