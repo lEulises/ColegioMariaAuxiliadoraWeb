@@ -2152,3 +2152,154 @@ ul {
 
 /* Si tu botón de menú hamburguesa está en el header-auth,
    podrías necesitar ajustar su posición en móvil si se ve afectado por estos cambios */
+
+   /* Estilos para el select y el botón de acción en la tabla de solicitudes */
+.solicitudes-table form {
+    margin: 0;
+}
+
+.solicitudes-table select[name="new_estado"] {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; /* Incluye padding y borde en el ancho total */
+    margin-bottom: 5px;
+}
+
+.solicitudes-table button[type="submit"] {
+    width: 100%;
+    padding: 6px 10px;
+    background-color: #007bff; /* Color azul para el botón de actualizar */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+}
+
+.solicitudes-table button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para los mensajes de feedback */
+.message {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+/* Ajustes para la barra de navegación y el área de usuario */
+
+/* En pantallas grandes, empuja el bloque de información de usuario a la derecha dentro del menú */
+@media (min-width: 769px) {
+    .main-nav ul li.user-info {
+        margin-left: auto;
+        /* Asegura que el contenido dentro de user-info se mantenga centrado verticalmente */
+        display: flex;
+        align-items: center;
+    }
+
+    /* Si el menú de navegación general se ve desalineado, esta regla puede ayudar a que todo fluya mejor */
+    .main-nav ul {
+        flex-wrap: nowrap; /* Evita que los elementos del menú se envuelvan prematuramente */
+    }
+}
+/* Estilos para noticias.php */
+.noticias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+.noticia-card {
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-top: 5px solid var(--primary-blue);
+}
+.noticia-card h2 {
+    color: var(--primary-blue);
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.8em;
+}
+.noticia-card .noticia-meta {
+    font-size: 0.9em;
+    color: var(--dark-gray);
+    margin-bottom: 15px;
+}
+.noticia-card .noticia-meta i {
+    margin-right: 5px;
+    color: var(--accent-gold);
+}
+.noticia-card .noticia-contenido {
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+.noticia-card .noticia-contenido img {
+    max-width: 100%; /* Asegura que las imágenes embebidas sean responsivas */
+    height: auto;
+    display: block;
+    margin: 15px auto; /* Centra las imágenes */
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Estilos para botones pequeños en tablas (gestionar_noticias.php) */
+.btn.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.85em;
+    border-radius: 4px;
+}
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+}
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+.action-buttons-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center; /* Centra los botones en móvil */
+}
+
+/* Media Queries para Noticias */
+@media (max-width: 768px) {
+    .noticias-grid {
+        grid-template-columns: 1fr; /* Una columna en móvil */
+        gap: 20px;
+    }
+    .noticia-card {
+        padding: 20px;
+    }
+    .noticia-card h2 {
+        font-size: 1.5em;
+    }
+}
